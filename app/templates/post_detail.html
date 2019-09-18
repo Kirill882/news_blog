@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-8 card mb-4  mt-3 left  top">
+
+                <div class="card-body">
+
+                    <h1>{% block title %} {{ object.title }} {% endblock title %}</h1>
+
+                    <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
+
+                    <p class="card-text ">{{ object.description | safe }}</p>
+
+                    <hr>
+
+                    {% for comment in post.comments.all %}
+                        {% if comment.approved_comment %}
+                            <div class="comment">
+                                <div class="date">
+                                    {{ comment.created_date }}
+                                </div>
+                                <strong>{{ comment.author }}</strong>
+                                <p>{{ comment.text|linebreaks }}</p>
+                            </div>
+                        {% endif %}
+                    {% empty %}
+                        <p>No comments here yet :(</p>
+                    {% endfor %}
+
+                    <a href="{% url 'add_comment_to_post' slug=post.slug %}">Add your comment</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock content %}
