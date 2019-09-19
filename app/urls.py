@@ -3,6 +3,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
+    path('registration/', views.register, name='registration'),
     path('', views.PostList.as_view(), name='home'),
     path('<slug:slug>/', views.PostDetail.as_view(), name='post_detail'),
     path('post/<slug:slug>/comment', views.add_comment_to_post, name='add_comment_to_post'),
