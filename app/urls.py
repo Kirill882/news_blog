@@ -2,6 +2,7 @@ from . import views
 from django.urls import path, include
 
 urlpatterns = [
+    path('search/', views.SearchResultsView.as_view(), name='search_results'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('registration/', views.register, name='registration'),
     path('', views.PostList.as_view(), name='home'),

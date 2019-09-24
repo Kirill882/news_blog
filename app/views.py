@@ -1,5 +1,8 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
+from django.views.generic import ListView
+
 from app.forms import CommentForm, UserForm
 from app.models import Post, Comment, Tag
 
@@ -49,6 +52,24 @@ def tag_detail(request, slug):
     return render(request, 'tag_detail.html', context={'tag': tag})
 
 
+# def register(request):
+#     registered = False
+#     if request.method == 'POST':
+#         user_form = UserForm(data=request.POST)
+#         if user_form.is_valid():
+#             user = user_form.save()
+#             user.set_password(user.password)
+#             user.save()
+#             registered = True
+#         else:
+#             print(user_form.errors)
+#     else:
+#         user_form = UserForm()
+#     return render(request, 'registration/registration.html',
+#                   {'user_form': user_form},
+#                   {'registered': registered})
+
+
 def register(request):
     registered = False
     if request.method == 'POST':
@@ -63,6 +84,20 @@ def register(request):
     else:
         user_form = UserForm()
     return render(request, 'registration/registration.html',
-                  {'user_form': user_form},
-                  {'registered': registered})
+                  {'user_form': user_form,
+                   'registered': registered})
+
+
+class SearchResultsView(ListView):
+    model = Post
+    template_name = 'search_results.html'
+
+    def get_queryset(self): # new
+        query = self.request.GET.get('q')
+        object_list = Post.objects.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+        return object_list
+
+
 

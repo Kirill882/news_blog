@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     {% if user.is_authenticated %}
-        {% for post in post_list %}
+        {% for post in object_list %}
 
             <!-- Blog Post -->
             <div class="card mb-4">
@@ -28,20 +28,5 @@
                 </div>
             </div>
         {% endfor %}
-        {% if is_paginated %}
-            <div> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>
-            <ul class="pagination justify-content-center mb-4">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="/?page={{ page_obj.previous_page_number }}">Last</a>
-                    </li>
-                {% endif %}
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="/?page={{ page_obj.next_page_number }}">Next</a>
-                    </li>
-                {% endif %}
-            </ul>
-        {% endif %}
-    {% endif %}
-    {% endblock content %}
+{% endif %}
+{% endblock %}
